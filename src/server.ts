@@ -4,7 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import { AddressInfo } from 'net';
 import { connect } from './database';
-import { User } from './models/User';
+import { IUser, User } from './models/User';
 dotenv.config();
 
 connect();
@@ -18,13 +18,29 @@ app.use(bodyParser.json());
 
 
 app.use(express.static('public'));
+
 app.get('/', (req, res) => {
-	res.sendFile(__dirname + '/views/index.html');
+	res.json({});
 });
 
 app.get('/api/exercise/users', async (req, res) => {
 	const users = await User.find();
 	res.json(users);
+});
+
+app.post('/api/exercise/new-user', async (req, res) => {
+	const payload = req.body as IUser;
+	let user = await User.findOne(payload);
+
+	if (user) {
+		res.json({
+			error: 'User already exists'
+		});
+	}
+
+	user = new User(payload);
+	await user.save();
+	res.json(user);
 });
 
 // Not found middleware
