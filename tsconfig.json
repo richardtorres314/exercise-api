@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"jsx": "react",
 		"outDir": "dist",
 		"module": "CommonJS",
 		"target": "es6",

@@ -4,7 +4,7 @@
 	"description": "A REST API project, part of Free Code Camp's curriculum",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js",
+		"start": "tsc && node dist/server.js",
 		"watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts"
 	},
 	"dependencies": {
