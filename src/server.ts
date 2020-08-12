@@ -29,8 +29,8 @@ app.get('/api/exercise/users', async (req, res) => {
 });
 
 app.post('/api/exercise/new-user', async (req, res) => {
-	const payload = req.body as IUser;
-	let user = await User.findOne(payload);
+	const { username }: IUser = req.body;
+	let user = await User.findOne({ username });
 
 	if (user) {
 		res.json({
@@ -38,9 +38,13 @@ app.post('/api/exercise/new-user', async (req, res) => {
 		});
 	}
 
-	user = new User(payload);
-	await user.save();
-	res.json(user);
+	user = new User({ username });
+	user.save().then((result) => {
+		return res.json({
+			username: result.username,
+			_id: result._id
+		});
+	});
 });
 
 // Not found middleware
