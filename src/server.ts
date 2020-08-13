@@ -33,7 +33,7 @@ app.post('/api/exercise/new-user', userCreateRoute);
 
 // Exercise Routes
 app.get('/api/exercise/log', exerciseListRoute);
-app.get('/api/exercise/add', exerciseCreateRoute);
+app.post('/api/exercise/add', exerciseCreateRoute);
 
 // Not found middleware
 app.use((req, res, next) => {
