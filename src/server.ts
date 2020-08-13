@@ -4,7 +4,11 @@ import cors from 'cors';
 import express from 'express';
 import { AddressInfo } from 'net';
 import { connect } from './database';
-import { IUser, User } from './models/User';
+import { exerciseCreateRoute } from './routes/exercise/create.route';
+import { exerciseListRoute } from './routes/exercise/list.route';
+import { User } from './models/User';
+import { userCreateRoute } from './routes/user/create.route';
+import { userListRoute } from './routes/user/list.route';
 dotenv.config();
 
 connect();
@@ -23,29 +27,13 @@ app.get('/', (req, res) => {
 	res.json({});
 });
 
-app.get('/api/exercise/users', async (req, res) => {
-	const users = await User.find();
-	res.json(users);
-});
+// User Routes
+app.get('/api/exercise/users', userListRoute);
+app.post('/api/exercise/new-user', userCreateRoute);
 
-app.post('/api/exercise/new-user', async (req, res) => {
-	const { username }: IUser = req.body;
-	let user = await User.findOne({ username });
-
-	if (user) {
-		res.json({
-			error: 'User already exists'
-		});
-	}
-
-	user = new User({ username });
-	user.save().then((result) => {
-		return res.json({
-			username: result.username,
-			_id: result._id
-		});
-	});
-});
+// Exercise Routes
+app.get('/api/exercise/log', exerciseListRoute);
+app.get('/api/exercise/add', exerciseCreateRoute);
 
 // Not found middleware
 app.use((req, res, next) => {
