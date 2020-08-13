@@ -35,7 +35,7 @@ export async function exerciseCreateRoute(req: Request<any, Payload>, res: Respo
 		username: user.username,
 		description: exercise.description,
 		duration: exercise.duration,
-		date: exercise.date
+		date: exercise.date.toISOString().split('T')[0]
 	});
 }
 
