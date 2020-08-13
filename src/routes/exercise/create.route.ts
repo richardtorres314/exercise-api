@@ -30,12 +30,12 @@ export async function exerciseCreateRoute(req: Request<any, Payload>, res: Respo
 
 	await exercise.save();
 
-	return {
+	res.json({
 		_id: user._id,
 		username: user.username,
 		description: exercise.description,
 		duration: exercise.duration,
 		date: exercise.date
-	};
+	});
 }
 
